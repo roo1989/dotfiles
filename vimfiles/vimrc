@@ -1,0 +1,63 @@
+syntax on
+set nu
+colorscheme brogrammer
+
+autocmd! bufwritepost $MYVIMRC source $MYVIMRC
+
+
+" Start plugins
+call plug#begin('~/.vim/plugged')
+
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'vim-scripts/indentpython.vim'
+Plug 'Valloric/YouCompleteMe'
+
+" End plugins
+call plug#end()
+
+" Keybindings
+let mapleader = ","
+map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+nnoremap <leader>n :tabnew
+nnoremap <leader>e :tabnew ~/.vimrc<CR>
+
+" Fuzzy finder
+nnoremap <leader>f :Files<CR>
+
+" Autoclose stuff
+inoremap " ""<left>
+inoremap ' ''<left>
+inoremap ( ()<left>
+inoremap [ []<left>
+inoremap { {}<left>
+inoremap {<CR> {<CR>}<ESC>O
+inoremap {;<CR> {<CR>};<ESC>O
+
+" PEP8
+au BufNewFile,BufRead *.py
+    \ set tabstop=4
+    \ set softtabstop=4
+    \ set shiftwidth=4
+    \ set textwidth=79
+    \ set expandtab
+    \ set autoindent
+    \ set fileformat=unix
+
+" Fullstack
+au BufNewFile,BufRead *.js, *.html, *.css
+    \ set tabstop=2
+    \ set softtabstop=2
+    \ set shiftwidth=2
+
+" Flag whitespace Python
+au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+
+"Python encoding
+set encoding=utf-8
+
+let g:ycm_autoclose_preview_window_after_completion=1
+
+" Run python
+autocmd FileType python map <buffer> <leader>r :w<CR>:exec '!python3' shellescape(@%, 1)<CR>
+
