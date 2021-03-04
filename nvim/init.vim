@@ -1,13 +1,6 @@
-syntax on
-set nu
-colorscheme brogrammer
-
-autocmd! bufwritepost $MYVIMRC source $MYVIMRC
-
-
-source '$XDG_CONFIG_HOME/nvim/init.vim'
-source '$XDG_CONFIG_HOME/nvim/plugins.vim'
-source '$XDG_CONFIG_HOME/nvim/keys.vim'
+source $HOME/.config/nvim/plugins.vim
+source $HOME/.config/nvim/keys.vim
+source $HOME/.config/nvim/settings.vim
 
 set formatoptions-=cro
 
