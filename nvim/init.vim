@@ -5,36 +5,11 @@ colorscheme brogrammer
 autocmd! bufwritepost $MYVIMRC source $MYVIMRC
 
 
-" Start plugins
-call plug#begin()
-
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-Plug 'vim-scripts/indentpython.vim'
-Plug 'jiangmiao/auto-pairs'
-Plug 'voldikss/vim-floaterm'
-Plug 'pangloss/vim-javascript'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'leafOfTree/vim-vue-plugin'
-Plug 'mattn/emmet-vim'
-Plug 'digitaltoad/vim-pug'
-" End plugins
-call plug#end()
+source '$XDG_CONFIG_HOME/nvim/init.vim'
+source '$XDG_CONFIG_HOME/nvim/plugins.vim'
+source '$XDG_CONFIG_HOME/nvim/keys.vim'
 
 set formatoptions-=cro
-
-" Keybindings
-let mapleader = ","
-nnoremap <leader>n :tabnew
-nnoremap <leader>e :tabnew ~/.vimrc<CR>
-nnoremap <leader>t :FloatermNew<CR>
-
-" Fuzzy finder
-noremap <leader>f :GFiles<CR>
-noremap <leader>ff :Files<CR>
-
-" Cocexplorer
-nmap <leader>1 :CocCommand explorer<CR>
 
 " PEP8
 au BufNewFile,BufRead *.py
