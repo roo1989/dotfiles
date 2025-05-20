@@ -190,8 +190,19 @@ return {
 		},
 		opts = {
 			keymap = {
-				preset = "default",
-				["down"] = { "select_next" },
+				preset = "none",
+				["<Tab>"] = {
+					"select_next",
+					condition = function()
+						return require("blink").visable()
+					end,
+				},
+				["<S-Tab>"] = {
+					"select_prev",
+					condition = function()
+						return require("blink").visable()
+					end,
+				},
 			},
 			appearance = {
 				nerd_font_variant = "mono",
