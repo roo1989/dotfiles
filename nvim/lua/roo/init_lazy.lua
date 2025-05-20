@@ -9,7 +9,6 @@ end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-	-- ui = {},
 	spec = "roo.lazy",
 	change_detection = { notify = false },
 })
