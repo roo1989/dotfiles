@@ -1,0 +1,15 @@
+# Ignore compiled files
+*.luac
+
+# Ignore swap/backup files
+*.swp
+*.swo
+*.bak
+
+# Lazy plugin files
+lazy-lock.json
+
+# Plugin data
+site/
+pack/
+plugin/packer_compiled.lua
