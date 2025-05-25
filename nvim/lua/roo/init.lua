@@ -66,7 +66,7 @@ vim.opt.cursorline = true
 vim.opt.scrolloff = 10
 
 vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "lua", "yaml" },
+	pattern = { "lua", "yaml", "elixir", "norg" },
 	callback = function()
 		vim.opt_local.tabstop = 2
 		vim.opt_local.shiftwidth = 2
