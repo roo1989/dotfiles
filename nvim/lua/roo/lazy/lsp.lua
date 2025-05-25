@@ -184,25 +184,12 @@ return {
 				dependencies = {
 					-- Optional: add friendly-snippets here
 				},
-				opts = {},
 			},
 			"folke/lazydev.nvim",
 		},
 		opts = {
 			keymap = {
-				preset = "none",
-				["<Tab>"] = {
-					"select_next",
-					condition = function()
-						return require("blink").visable()
-					end,
-				},
-				["<S-Tab>"] = {
-					"select_prev",
-					condition = function()
-						return require("blink").visable()
-					end,
-				},
+				preset = "default",
 			},
 			appearance = {
 				nerd_font_variant = "mono",
