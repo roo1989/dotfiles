@@ -1,0 +1,5 @@
+theme = nord
+font-family = "FiraCode"
+font-size = 13
+adjust-cell-height = -5%
+adjust-box-thickness = -1
