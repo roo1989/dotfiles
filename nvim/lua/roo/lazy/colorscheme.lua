@@ -1,10 +1,9 @@
 return {
-	"EdenEast/nightfox.nvim",
-	-- Add in any other configuration;
-	--   event = foo,
-	--   config = bar
-	--   end,
+	"dgox16/oldworld.nvim",
+	lazy = false,
+	priority = 1000,
+
 	config = function()
-		vim.cmd.colorscheme("nordfox")
+		vim.cmd.colorscheme("oldworld")
 	end,
 }
