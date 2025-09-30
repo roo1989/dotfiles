@@ -12,14 +12,17 @@ return {
 			},
 		})
 
-		vim.keymap.set("n", "<leader>ha", function()
-			harpoon:list():append()
+		vim.keymap.set("n", "<leader>hx", function()
+			harpoon:list():add()
 		end)
 		vim.keymap.set("n", "<leader>hh", function()
 			harpoon.ui:toggle_quick_menu(harpoon:list())
 		end)
-		vim.keymap.set("n", "<leader>h1", function()
-			harpoon:list():select(1)
+		vim.keymap.set("n", "<leader>hn", function()
+			harpoon:list():next()
+		end)
+		vim.keymap.set("n", "<leader>hp", function()
+			harpoon:list():prev()
 		end)
 	end,
 }

@@ -17,7 +17,16 @@ return {
 				elixirls = {},
 				clangd = {},
 				gopls = {},
-				pyright = {},
+				pyright = {
+					settings = {
+						python = {
+							analysis = {
+								typeCheckingMode = "off", -- disable type checking
+								diagnosticMode = "off",
+							},
+						},
+					},
+				},
 				rust_analyzer = {},
 				lua_ls = {
 					settings = {
