@@ -1,0 +1,141 @@
+/* ===== EDITOR ACTIONS BUTTON ===== */
+/* Hide default "more actions" button */
+.monaco-workbench .editor-group-container .editor-actions .codicon-more {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: opacity 0.2s ease;
+}
+
+/* Show button on editor hover */
+.monaco-workbench .editor-group-container:hover .editor-actions .codicon-more {
+  opacity: 1 !important;
+  pointer-events: all !important;
+}
+
+/* ===== SIDEBAR STYLING ===== */
+/* Sidebar title adjustments */
+.monaco-workbench .part.sidebar .composite.title {
+  margin-left: 29px !important;
+  margin-bottom: 10px !important;
+  color: var(--vscode-sideBar-foreground) !important;
+}
+
+/* Sidebar content padding */
+.monaco-workbench .part.sidebar>.content {
+  padding-bottom: 60px !important;
+  box-sizing: border-box !important;
+}
+
+/* Sidebar title color */
+.monaco-workbench .part.sidebar .composite.title h2 {
+  color: var(--vscode-sideBar-foreground) !important;
+}
+
+/* Sidebar list items styling */
+.monaco-workbench .part.sidebar .monaco-list {
+  width: 90% !important;
+  margin: auto !important;
+}
+
+.monaco-workbench .part.sidebar .monaco-list .monaco-list-row.selected,
+.monaco-workbench .part.sidebar .monaco-list .monaco-list-row.selected.inactive,
+.monaco-workbench .part.sidebar .monaco-list .monaco-list-row.selected.focused,
+.monaco-workbench .part.sidebar .monaco-list .monaco-list-row:hover {
+  border-radius: 5px !important;
+}
+
+/* Icon label adjustments */
+.monaco-workbench .part.sidebar .monaco-list .monaco-icon-label {
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+}
+
+.monaco-workbench .part.sidebar .monaco-list .monaco-icon-label-container {
+  margin-left: 0px !important;
+}
+
+/* Hide sidebar action buttons */
+.monaco-workbench .part.sidebar .title-actions .actions-container {
+  display: none;
+}
+
+/* Expanded folder icon color */
+.codicon-tree-item-expanded:before {
+  color: var(--vscode-sideBar-foreground) !important;
+}
+
+/* ===== TITLEBAR STYLING ===== */
+/* Hide window control buttons */
+.monaco-workbench .part.titlebar>.titlebar-container>.titlebar-right {
+  color: #00000000 !important;
+}
+
+/* Titlebar container layout */
+.monaco-workbench .part.titlebar>.titlebar-container {
+  display: flex !important;
+  justify-content: space-between !important;
+}
+
+/* Hide app icon */
+.window-appicon {
+  position: absolute !important;
+  left: -999px !important;
+}
+
+/* ===== QUICK INPUT ===== */
+/* Remove command palette blur effect */
+#command-blur {
+  display: none !important;
+}
+
+.quick-input-widget {
+  background: rgba(var(--vscode-editorWidget-background-rgb), 0.85) !important;
+  backdrop-filter: blur(60px) saturate(180%) !important;
+  border: 1px solid rgba(var(--vscode-focusBorder-rgb), 1) !important;
+  border-radius: 12px !important;
+  transform: translate(-50%, -50%) !important;
+  top: 50% !important;
+  left: 50% !important;
+  position: fixed !important;
+  padding: 10px !important;
+}
+
+.quick-input-widget .monaco-inputbox {
+  background: rgba(var(--vscode-editorWidget-background-rgb), 0.9) !important;
+  backdrop-filter: blur(100px) saturate(200%) !important;
+}
+
+.quick-input-widget .quick-input-box {
+  background: transparent !important;
+}
+
+/* Quick input list styling */
+.quick-input-list {
+  background: transparent !important;
+  padding: 10px 0px 10px 0px !important;
+}
+
+/* ===== SEARCH WIDGET ===== */
+/* Hide search icons */
+.search-icon,
+.codicon-search::before,
+.codicon-arrow-right,
+.codicon-arrow-left {
+  display: none !important;
+}
+
+/* ===== MISC ELEMENTS ===== */
+/* Remove hover resize borders */
+.monaco-resizable-hover {
+  border: none !important;
+}
+
+/* Transparent list backgrounds */
+.monaco-list-rows {
+  background: transparent !important;
+}
+
+/* Hide VS Code home icon */
+.editor-group-watermark {
+  max-width: 0px !important;
+}
