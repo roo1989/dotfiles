@@ -1,0 +1,14 @@
+ls -lrt
+clear
+ls -lrt
+clear
+top 
+j
+vim 
+ls -lrt
+clear
+l
+ll
+ls -lrt
+clear
+pwd 
