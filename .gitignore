@@ -1,0 +1,23 @@
+# =========================
+# Emacs generated files
+# =========================
+
+# Backup & autosave files
+*~
+**/#*
+
+# Autosave state
+emacs.d/auto-save-list/
+
+# Native compilation cache
+emacs.d/eln-cache/
+
+# Installed packages & archives (ELPA/MELPA)
+emacs.d/elpa/
+
+# Emacs runtime state
+emacs.d/.cache/
+emacs.d/recentf
+emacs.d/bookmarks
+emacs.d/projectile-bookmarks.el
+d
