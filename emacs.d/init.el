@@ -161,7 +161,7 @@
          :map ivy-switch-buffer-map
          ("C-k" . ivy-previous-line)
          ("C-l" . ivy-done)
-         ("C-d" . ivy-switch-buffer-kill)
+
          :map ivy-reverse-i-search-map
          ("C-k" . ivy-previous-line)
          ("C-d" . ivy-reverse-i-search-kill))
@@ -444,6 +444,109 @@
 
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
+
+;;;; Development / Python IDE --------------------------------------------------
+
+;; Optional: Elpy is noisy under native-comp; this hides warnings (not errors).
+(setq native-comp-async-report-warnings-errors nil)
+
+;; --- Company: completions UI -------------------------------------------------
+(use-package company
+  :diminish
+  :hook (after-init . global-company-mode)
+  :custom
+  (company-idle-delay 0.1)
+  (company-minimum-prefix-length 1)
+  (company-tooltip-align-annotations t)
+  (company-tooltip-limit 20)
+  (company-show-numbers t)
+  (company-require-match nil)
+  :config
+  ;; Make Company navigation feel like Ivy
+  (define-key company-active-map (kbd "C-j") #'company-select-next)
+  (define-key company-active-map (kbd "C-k") #'company-select-previous)
+  (define-key company-active-map (kbd "C-l") #'company-complete-selection)
+  (define-key company-active-map (kbd "TAB") #'company-complete-selection)
+  (define-key company-active-map (kbd "<tab>") #'company-complete-selection)
+  (define-key company-active-map (kbd "C-d") #'company-show-doc-buffer)
+  (define-key company-active-map (kbd "C-n") #'company-select-next)
+  (define-key company-active-map (kbd "C-p") #'company-select-previous))
+
+;; --- Yasnippet (used by Elpy module) ----------------------------------------
+(use-package yasnippet
+  :diminish yas-minor-mode
+  :hook (prog-mode . yas-minor-mode)
+  :config
+  (yas-reload-all))
+
+;; --- Elpy: Python IDE --------------------------------------------------------
+(use-package elpy
+  :init
+  ;; Enable Elpy when Emacs starts
+  (elpy-enable)
+
+  ;; Use the modules you requested
+  (setq elpy-modules
+        '(elpy-module-sane-defaults
+          elpy-module-company
+          elpy-module-eldoc
+          elpy-module-yasnippet
+          elpy-module-django))
+
+  ;; Prefer Flymake (built-in) to avoid extra deps; Elpy supports this
+  ;; If you want Flycheck instead, tell me and I’ll switch it.
+  (setq elpy-checker 'flymake)
+
+  ;; Better default shell behavior
+  (setq python-shell-interpreter "python3")
+
+  :config
+  ;; Improve docs/eldoc responsiveness
+  (setq eldoc-idle-delay 0.2)
+
+  ;; Make M-. / find-def feel snappy in Python
+  (add-hook 'python-mode-hook
+            (lambda ()
+              (setq-local indent-tabs-mode nil)
+              (setq-local tab-width 4)))
+
+  ;; If you use black/ruff formatting externally, we can wire that too.
+  )
+
+;; --- UV / .venv auto-activation ---------------------------------------------
+;; Your projects keep virtualenvs in .venv in the project root.
+;; This automatically activates .venv when you open a Python file inside a project.
+(use-package pyvenv
+  :after python
+  :config
+  (pyvenv-mode 1)
+
+  (defun roo/pyvenv-auto-activate ()
+    "Auto-activate a local .venv for the current buffer, if present."
+    (let* ((root (or (and (fboundp 'projectile-project-root)
+                          (ignore-errors (projectile-project-root)))
+                     (and (fboundp 'project-root)
+                          (ignore-errors (project-root (project-current))))
+                     default-directory))
+           (venv (and root (expand-file-name ".venv" root))))
+      (when (and venv (file-directory-p venv))
+        ;; Avoid re-activating if already active
+        (unless (and (boundp 'pyvenv-virtual-env)
+                     pyvenv-virtual-env
+                     (file-equal-p (file-truename pyvenv-virtual-env)
+                                   (file-truename venv)))
+          (pyvenv-activate venv)))))
+
+  (add-hook 'python-mode-hook #'roo/pyvenv-auto-activate)
+  ;; Also activate when you switch projects (Projectile)
+  (with-eval-after-load 'projectile
+    (add-hook 'projectile-after-switch-project-hook #'roo/pyvenv-auto-activate)))
+
+;; --- Quality-of-life keybindings --------------------------------------------
+;; If you want: jump to definition / back similar to IDEs
+(with-eval-after-load 'python
+  (define-key python-mode-map (kbd "M-.") #'xref-find-definitions)
+  (define-key python-mode-map (kbd "M-,") #'xref-go-back))
 
 (use-package term
   :config

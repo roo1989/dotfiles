@@ -4,8 +4,18 @@
 * Welcome!
 
 #+begin_src emacs-lisp
-(defvar efs/default-font-size 125)
-(defvar efs/default-variable-font-size 125)
+  (defvar efs/default-font-size 125)
+  (defvar efs/default-variable-font-size 125)
+
+  ;; Keep all backups in one place (no file~ in repos)
+(setq backup-directory-alist
+      `(("." . ,(expand-file-name "backups/" user-emacs-directory))))
+
+(setq auto-save-file-name-transforms
+      `((".*" ,(expand-file-name "auto-saves/" user-emacs-directory) t)))
+
+(make-directory (expand-file-name "backups/" user-emacs-directory) t)
+(make-directory (expand-file-name "auto-saves/" user-emacs-directory) t)
 #+end_src
 
 #+RESULTS:

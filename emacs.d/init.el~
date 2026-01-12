@@ -161,7 +161,7 @@
          :map ivy-switch-buffer-map
          ("C-k" . ivy-previous-line)
          ("C-l" . ivy-done)
-         ("C-d" . ivy-switch-buffer-kill)
+
          :map ivy-reverse-i-search-map
          ("C-k" . ivy-previous-line)
          ("C-d" . ivy-reverse-i-search-kill))
@@ -361,14 +361,6 @@
   :custom
   (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
 
-(defun efs/org-mode-visual-fill ()
-  (setq visual-fill-column-width 100
-        visual-fill-column-center-text t)
-  (visual-fill-column-mode 1))
-
-(use-package visual-fill-column
-  :hook (org-mode . efs/org-mode-visual-fill))
-
 (org-babel-do-load-languages
   'org-babel-load-languages
   '((emacs-lisp . t)
@@ -453,6 +445,19 @@
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
 
+(use-package elpy
+  :ensure t
+  :disabled t
+  :init
+  ;; @TODO have some module for snippets
+  (setq elpy-modules
+        '(elpy-module-sane-defaults
+          elpy-module-company
+          elpy-module-eldoc
+          elpy-module-yasnippet
+          elpy-module-django))
+  (elpy-enable))
+
 (use-package term
   :config
   (setq explicit-shell-file-name "zsh") ;; Change this to zsh, etc
@@ -503,3 +508,25 @@
     (setq eshell-visual-commands '("htop" "zsh" "vim")))
 
   (eshell-git-prompt-use-theme 'powerline))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(all-the-icons-dired auto-package-update command-log-mode company-box
+			 counsel-projectile dap-mode
+			 dired-hide-dotfiles dired-open doom-modeline
+			 doom-themes eshell-git-prompt eterm-256color
+			 evil-collection evil-nerd-commenter
+			 evil-terminal-cursor-changer forge general
+			 helpful ivy-prescient ivy-rich lsp-ivy lsp-ui
+			 no-littering org-bullets projectile-ripgrep
+			 python-mode pyvenv rainbow-delimiters
+			 typescript-mode visual-fill-column vterm)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
