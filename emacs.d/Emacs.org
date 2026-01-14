@@ -656,6 +656,18 @@ Dired is a built-in file manager for Emacs that does some pretty amazing things!
 ;; Make sure the prefix is decided before projectile loads
 (setq projectile-keymap-prefix (kbd "C-c p"))
 
+;; Option #3: global ignores (apply to all projects)
+(setq projectile-globally-ignored-directories
+      '(".git" ".hg" ".svn"
+        ".venv" "venv" "env"
+        ".tox" "__pycache__"
+        ".mypy_cache" ".pytest_cache"
+        ".ruff_cache" ".idea" ".vscode"
+        "node_modules" "dist" "build"))
+
+(setq projectile-globally-ignored-files
+      '(".DS_Store" "*.pyc" "*.pyo" "*.egg-info"))
+
 (use-package projectile
   :diminish projectile-mode
   :init
