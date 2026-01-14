@@ -1,0 +1,2 @@
+;;   -*- mode: lisp-data; -*-
+((:container ((elisp org-element--headline-cache) (elisp org-element--cache) (version "2.3")) :persist-file "60/1a8cad-1b9e-4454-ad21-6a8c5a5ac0da" :associated (:hash "e95a06cd42e008e0da2e3cc39a3422b0" :file "/Users/roo/.emacs.d/Emacs.org" :inode 42578453) :expiry 30 :last-access 1768075313.758875 :last-access-hr "2026-01-10T20:01:53+0000") (:container ((index "3.2")) :persist-file "f6/ae67c7-147f-4aa5-a9a0-1e3104ffd28c" :associated nil :expiry never :last-access 1768075280.415532 :last-access-hr "2026-01-10T20:01:20+0000"))

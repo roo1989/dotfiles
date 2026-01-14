@@ -1,5 +1,6 @@
-theme = nord
+theme = brogrammer
 font-family = "FiraCode"
 font-size = 13
 adjust-cell-height = -5%
 adjust-box-thickness = -1
+macos-option-as-alt = true
