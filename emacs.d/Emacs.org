@@ -125,7 +125,7 @@ I am using the [[https://github.com/tonsky/FiraCode][Fira Code]] and [[https://f
 
 #+begin_src emacs-lisp
 
-(set-face-attribute 'default nil :font "Fira Code Retina" :height efs/default-font-size)
+(set-face-attribute 'default nil :font "Fira Code Retina" :height efs/default-font-size :weight 'light)
 
 ;; Set the fixed pitch face
 (set-face-attribute 'fixed-pitch nil :font "Fira Code Retina" :height efs/default-font-size)
@@ -653,45 +653,38 @@ Dired is a built-in file manager for Emacs that does some pretty amazing things!
 [[https://projectile.mx/][Projectile]] is a project management library for Emacs which makes it a lot easier to navigate around code projects for various languages.  Many packages integrate with Projectile so it's a good idea to have it installed even if you don't use its commands directly.
 
 #+begin_src emacs-lisp
-;; Make sure the prefix is decided before projectile loads
-(setq projectile-keymap-prefix (kbd "C-c p"))
+    ;; Make sure the prefix is decided before projectile loads
+    (setq projectile-keymap-prefix (kbd "C-c p"))
 
-;; Option #3: global ignores (apply to all projects)
-(setq projectile-globally-ignored-directories
-      '(".git" ".hg" ".svn"
-        ".venv" "venv" "env"
-        ".tox" "__pycache__"
-        ".mypy_cache" ".pytest_cache"
-        ".ruff_cache" ".idea" ".vscode"
-        "node_modules" "dist" "build"))
+    ;; Custom action: open project root in Dired in a NEW window
+    (defun my/projectile-dired-other-window ()
+      "Open project root in Dired in another window."
+      (dired-other-window (projectile-project-root)))
 
-(setq projectile-globally-ignored-files
-      '(".DS_Store" "*.pyc" "*.pyo" "*.egg-info"))
+  (use-package projectile
+    :diminish projectile-mode
+    :init
+    (setq projectile-project-search-path
+          (seq-filter #'file-directory-p
+-                    '("~/dev/projects"
+-                      "~/dev/projects/*")))
+    (setq projectile-switch-project-action #'my/projectile-dired-other-window
+          projectile-enable-caching t)
+    :config
+    (projectile-mode +1)
+    (projectile-discover-projects-in-search-path)
+    (projectile-save-known-projects)
+    ;; Ensure C-c p is the real projectile keymap (not a stub)
+    (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 
-(use-package projectile
-  :diminish projectile-mode
-  :init
-  (setq projectile-project-search-path
-        (seq-filter #'file-directory-p
-                    '("~/dev/projects"
-                      "~/dev/projects/*")))
-  (setq projectile-switch-project-action #'projectile-dired
-        projectile-enable-caching t)
-  :config
-  (projectile-mode +1)
-  (projectile-discover-projects-in-search-path)
-  (projectile-save-known-projects)
-  ;; Ensure C-c p is the real projectile keymap (not a stub)
-  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
-
-(use-package counsel-projectile
-  :after (projectile counsel ivy)
-  :config
-  (counsel-projectile-mode 1)
-  ;; Bind AFTER projectile is fully loaded so projectile-command-map is real
-  (with-eval-after-load 'projectile
-    (define-key projectile-command-map (kbd "p")
-      #'counsel-projectile-switch-project)))
+    (use-package counsel-projectile
+      :after (projectile counsel ivy)
+      :config
+      (counsel-projectile-mode 1)
+      ;; Bind AFTER projectile is fully loaded so projectile-command-map is real
+      (with-eval-after-load 'projectile
+        (define-key projectile-command-map (kbd "p")
+          #'counsel-projectile-switch-project)))
 #+end_src
 
 ** Magit
@@ -960,5 +953,24 @@ For more thoughts on Eshell, check out these articles by Pierre Neidhardt:
 
     (eshell-git-prompt-use-theme 'powerline))
 
+
+#+end_src
+
+* File Tree
+#+begin_src emacs-lisp
+
+    ;; --- Treemacs: file tree sidebar ---
+  (use-package treemacs
+    :ensure t
+    :defer t
+    :init
+    ;; Handy toggle key
+    (global-set-key (kbd "C-c t") #'treemacs)
+    :config
+    ;; Optional niceties
+    (setq treemacs-width 35
+          treemacs-follow-mode t              ; follow current file
+          treemacs-filewatch-mode t           ; auto-refresh
+          treemacs-fringe-indicator-mode 'always))
 
 #+end_src

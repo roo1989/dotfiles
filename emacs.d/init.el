@@ -1,5 +1,15 @@
 (defvar efs/default-font-size 125)
-(defvar efs/default-variable-font-size 125)
+  (defvar efs/default-variable-font-size 125)
+
+  ;; Keep all backups in one place (no file~ in repos)
+(setq backup-directory-alist
+      `(("." . ,(expand-file-name "backups/" user-emacs-directory))))
+
+(setq auto-save-file-name-transforms
+      `((".*" ,(expand-file-name "auto-saves/" user-emacs-directory) t)))
+
+(make-directory (expand-file-name "backups/" user-emacs-directory) t)
+(make-directory (expand-file-name "auto-saves/" user-emacs-directory) t)
 
 ;; macOS clipboard integration for terminal Emacs
 (when (and (eq system-type 'darwin) (not (display-graphic-p)))
@@ -68,7 +78,7 @@
                 eshell-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
-(set-face-attribute 'default nil :font "Fira Code Retina" :height efs/default-font-size)
+(set-face-attribute 'default nil :font "Fira Code Retina" :height efs/default-font-size :weight 'light)
 
 ;; Set the fixed pitch face
 (set-face-attribute 'fixed-pitch nil :font "Fira Code Retina" :height efs/default-font-size)
@@ -406,16 +416,20 @@
       (kbd "H") #'dired-hide-dotfiles-mode)))
 
 ;; Make sure the prefix is decided before projectile loads
-(setq projectile-keymap-prefix (kbd "C-c p"))
+  (setq projectile-keymap-prefix (kbd "C-c p"))
+
+  ;; Custom action: open project root in Dired in a NEW window
+  (defun my/projectile-dired-other-window ()
+    "Open project root in Dired in another window."
+    (dired-other-window (projectile-project-root)))
 
 (use-package projectile
   :diminish projectile-mode
   :init
   (setq projectile-project-search-path
         (seq-filter #'file-directory-p
-                    '("~/dev/projects"
-                      "~/dev/projects/*")))
-  (setq projectile-switch-project-action #'projectile-dired
+                    '("~/dev/*")))
+  (setq projectile-switch-project-action #'my/projectile-dired-other-window
         projectile-enable-caching t)
   :config
   (projectile-mode +1)
@@ -424,14 +438,14 @@
   ;; Ensure C-c p is the real projectile keymap (not a stub)
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 
-(use-package counsel-projectile
-  :after (projectile counsel ivy)
-  :config
-  (counsel-projectile-mode 1)
-  ;; Bind AFTER projectile is fully loaded so projectile-command-map is real
-  (with-eval-after-load 'projectile
-    (define-key projectile-command-map (kbd "p")
-      #'counsel-projectile-switch-project)))
+  (use-package counsel-projectile
+    :after (projectile counsel ivy)
+    :config
+    (counsel-projectile-mode 1)
+    ;; Bind AFTER projectile is fully loaded so projectile-command-map is real
+    (with-eval-after-load 'projectile
+      (define-key projectile-command-map (kbd "p")
+        #'counsel-projectile-switch-project)))
 
 (use-package magit
   :custom
@@ -598,16 +612,17 @@
     (setq eshell-visual-commands '("htop" "zsh" "vim")))
 
   (eshell-git-prompt-use-theme 'powerline))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(company-show-quick-access t nil nil "Customized with use-package company")
- '(warning-suppress-types '((auto-save))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+
+;; --- Treemacs: file tree sidebar ---
+(use-package treemacs
+  :ensure t
+  :defer t
+  :init
+  ;; Handy toggle key
+  (global-set-key (kbd "C-c t") #'treemacs)
+  :config
+  ;; Optional niceties
+  (setq treemacs-width 35
+        treemacs-follow-mode t              ; follow current file
+        treemacs-filewatch-mode t           ; auto-refresh
+        treemacs-fringe-indicator-mode 'always))
